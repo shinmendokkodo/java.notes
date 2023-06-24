@@ -14,7 +14,7 @@ The `LinkedList` class has a static inner class called Node. This class contains
 - `next` - This contains the pointer to the next element.
 - `prev` - This contains the pointer to the previous element.
 
-Below is the code for the Node class.
+Below is the code for the `Node` class.
 
 ```java
 private static class Node<E> {
@@ -79,7 +79,7 @@ We can use the `addFirst(E e)` method to insert an element at the beginning.
 We can use the `add(int index, E element)` method to insert an element at a particular index. The index should be greater than zero and less than the size of the `LinkedList`; otherwise, `IndexOutOfBoundsException` is thrown.
 
 ### Inserting multiple elements from another Collection
-If we have a Collection and we need to add all its elements to another LinkedList, then the addAll(Collection c) method can be used. This method will add all the elements at the end of the LinkedList.
+If we have a `Collection` and we need to add all its elements to another `LinkedList`, then the `addAll(Collection c)` method can be used. This method will add all the elements at the end of the `LinkedList`.
 
 ```java
 list.addAll(anotherList)
@@ -123,6 +123,12 @@ public class LinkedListDemo {
 	}
 }
 ```
+```md
+[1, 2, 3]
+[10, 1, 2, 3]
+[10, 1, 20, 2, 3]
+[10, 1, 20, 101, 102, 103, 2, 3]
+```
 
 ## LinkedList: Fetching and Removing
 
@@ -139,7 +145,6 @@ We can fetch an element at a particular index by using the `get(int index)` meth
 import java.util.LinkedList;
 
 public class LinkedListDemo {
-
 	public static void main(String args[]) {
 		LinkedList<Integer> linkedList = new LinkedList<>();
 		linkedList.add(1);
@@ -150,12 +155,15 @@ public class LinkedListDemo {
 		linkedList.add(6);
 
 		System.out.println(linkedList.getFirst()); //Fetching the first element.
-
 		System.out.println(linkedList.getLast()); //Fetching the last element.
-
 		System.out.println(linkedList.get(2)); //Fetching the element at second index.
 	}
 }
+```
+```md
+1
+6
+3
 ```
 
 ### Removing the first element
@@ -168,13 +176,12 @@ We can use the `removeLast()` method to remove the last element in the list. If 
 We can remove an element at a particular index by using the `remove(int index)` method. The index should be more than zero and less than the size of the `LinkedList`; otherwise, `IndexOutOfBoundsException` is thrown.
 
 ## Removing a particular element
-We can use the `remove(Object o)` method to remove a particular element from the LinkedList. If there is more than one occurrence of a particular element, then the first occurrence is removed. If we want to remove the last occurrence of an element, the `removeLastOccurrence()` method can be used.
+We can use the `remove(Object o)` method to remove a particular element from the `LinkedList`. If there is more than one occurrence of a particular element, then the first occurrence is removed. If we want to remove the last occurrence of an element, the `removeLastOccurrence()` method can be used.
 
 ```java
 import java.util.LinkedList;
 
 public class LinkedListDemo {
-
 	public static void main(String args[]) {
 		LinkedList<Integer> linkedList = new LinkedList<>();
 
@@ -200,6 +207,13 @@ public class LinkedListDemo {
 		System.out.println("LinkedList after removing the last occurrence of 4. " + linkedList);
 	}
 }
+```
+```md
+LinkedList before removing any element [1, 2, 3, 4, 2, 4, 5]
+LinkedList after removing first element [2, 3, 4, 2, 4, 5]
+LinkedList after removing last element [2, 3, 4, 2, 4]
+LinkedList after removing first occurrence of 2. [3, 4, 2, 4]
+LinkedList after removing the last occurrence of 4. [3, 4, 2]
 ```
 
 ## Sorting a LinkedList
@@ -228,4 +242,7 @@ public class LinkedListDemo {
 		System.out.println(linkedList);
 	}
 }
+```
+```md
+[2, 12, 20, 40, 41, 53, 76]
 ```
