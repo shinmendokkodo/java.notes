@@ -640,3 +640,362 @@ class GfG {
 Output:
 2
 ```
+
+---
+
+## Finding the minimum element in a Collection
+
+The `min(Collection c)` method can be used to find the minimum element in a `Collection`. The elements present in the `Collection` must implement the `Comparable` interface. If the elements do not implement the `Comparable` interface, we can use another overloaded method, `min(Collection c, Comparator comp)`. This method takes a `Comparator` as an argument that is used to compare the elements. This method iterates over the entire collection; hence it requires time proportional to the size of the collection.
+
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class ArrayListDemo {
+	public static void main(String args[]) {
+		List<Integer> list = new ArrayList<>();
+		list.add(34);
+		list.add(12);
+		list.add(9);
+		list.add(76);
+		list.add(29);
+		list.add(75);
+
+		System.out.println("The minimum element in the List is: " + Collections.min(list));
+	}
+}
+```
+
+## Finding the maximum element in a Collection
+
+The `max(Collection c)` method can be used to find the maximum element in a `Collection`. The elements present in the `Collection` must implement the `Comparable` interface. If the elements do not implement the `Comparable` interface, we can use another overloaded method `max(Collection c, Comparator comp)`. This method takes a `Comparator` as an argument that is used to compare the elements. This method iterates over the entire `Collection`; hence it requires time proportional to the size of the `Collection`.
+
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class ArrayListDemo {
+	public static void main(String args[]) {
+		List<Integer> list = new ArrayList<>();
+		list.add(34);
+		list.add(12);
+		list.add(9);
+		list.add(76);
+		list.add(29);
+		list.add(75);
+
+		System.out.println("The maximum element in the List is: " + Collections.max(list));
+	}
+}
+```
+
+## Finding the frequency of elements in a Collection
+
+There is a `frequency(Collection c, object o)` method that can be used to find the frequency of a given element in the `Collection`. This method iterates the entire Collection so the time complexity is proportional to the size of the collection.
+
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class ArrayListDemo {
+
+	public static void main(String args[]) {
+		List<Integer> list = new ArrayList<>();
+		list.add(9);
+		list.add(12);
+		list.add(9);
+		list.add(76);
+		list.add(9);
+		list.add(75);
+
+		System.out.println("Total number of times,9 is present in the List is: " + Collections.frequency(list, 9));
+	}
+}
+```
+
+## Searching an element in a Collection
+
+The `binarySearch(List list, T key)` method searches the specified list for the specified object using the binary search algorithm. The elements added in the `List` must implement the `Comparable` interface, and the list must be sorted into ascending order before making this call. If it is not sorted, the results are undefined. If the list contains multiple elements equal to the specified object, there is no guarantee which one will be found.
+
+If the elements added to our List do not implement the `Comparable` interface, then we can use another overloaded version of `binarySearch(List list, T key, Comparator comp)`, which takes a `Comparator` for the input as well. The list must be sorted into ascending order according to the specified comparator.
+
+If the element is not present in the list, then this method returns a position where the element can be inserted.
+
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class CollectionsDemo {
+	public static void main(String args[]) {
+		List<Integer> list = new ArrayList<>();
+		list.add(9);
+		list.add(12);
+		list.add(34);
+		list.add(54);
+		list.add(66);
+		list.add(76);
+
+		System.out.println("The minimum element in the List is: " + Collections.binarySearch(list, new Integer(222)));
+	}
+}
+```
+
+## Copying a list into another list
+
+The `copy(List dest, List src)` method is used to copy all the elements from a source list to a destination list. If the size of the destination list is smaller than the source list, then `IndexOutOfBoundsException` is thrown. After the operation, the index of each copied element in the destination list will be identical to its index in the source list.
+
+Let’s consider an example to understand this.
+
+```java
+List dest = 10,20,30,40,50,60;
+List src = 1,2,3;
+Collections.copy(dest, src);
+```
+
+After doing the above operation, the dest list will become:
+
+```md
+{1,2,3,40,50,60}
+```
+
+So the `copy()` method does not merge the elements of the two lists. It replaces the elements in the destination list from the elements in the source list.
+
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class CollectionsDemo {
+	public static void main(String args[]) {
+		List<Integer> list1 = new ArrayList<>();
+		list1.add(9);
+		list1.add(12);
+		list1.add(34);
+		list1.add(54);
+		list1.add(66);
+		list1.add(76);
+
+		List<Integer> list2 = new ArrayList<>();
+		list2.add(90);
+		list2.add(12);
+		list2.add(98);
+		list2.add(43);
+
+		Collections.copy(list1, list2);
+
+		System.out.println(list1);
+	}
+}
+```
+
+## Filling a list with a default value
+
+The `fill(List list, Object obj)` method replaces all of the elements of the specified list with the specified element. This method is very useful if we want to reset our `List` to a default value.
+
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class ArrayListDemo {
+
+	public static void main(String args[]) {
+		List<Integer> list = new ArrayList<>();
+		list.add(34);
+		list.add(45);
+
+		Collections.fill(list, 10);
+
+		System.out.println(list);
+	}
+}
+```
+
+## Making Collections Unmodifiable
+
+Let’s say we have created a collection where we have added some important data. We want others to read this data, but they should not be allowed to modify the data in this `Collection`. The `Collections` class provides certain methods that can be used to make our `Collection` unmodifiable. These methods return a collection in which if someone tries to add or remove an element, then `UnsupportedOperationException` is thrown.
+
+This feature is particularly useful if our `Collection` contains some sensitive data. We need to only give read access to our data, but we don’t want others to accidentally modify it.
+
+Following is the list of methods available to make Collections unmodifiable:
+1. `unmodifiableList(List<? extends T> list)`
+2. `unmodifiableSet(Set<? extends T> s)`
+3. `unmodifiableMap(Map<? extends K, ? extends V> m)`
+4. `unmodifiableCollection(Collection<? extends T> c)`
+5. `unmodifiableSortedMap(SortedMap<K,? extends V> m)`
+6. `unmodifiableSortedSet(SortedSet<T> s)`
+
+We will not look at examples of each of these methods, as they are essentially the same. We will only look at `unmodifiableList()`.
+
+### Making `ArrayList` unmodifiable
+
+Any `List` implementation such as an `ArrayList` or `LinkedList` can be made unmodifiable by using the `unmodifiableList(List list)` method of the `Collections` class. If we try to add or remove elements from the returned list, then `UnsupportedOperationException` will be thrown as shown in the below example.
+
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class UnmodifiableArrayList {
+	public static void main(String args[]) {
+		List<String> list = new ArrayList<String>();
+		list.add("India");
+		list.add("USA");
+		list.add("Russia");
+
+		List<String> unmodifiableList = Collections.unmodifiableList(list);
+		// This will throw exception because element can't be added to unmodifiable list.
+		unmodifiableList.add("China");
+	}
+}
+```
+
+Let’s discuss briefly how the `unmodifiableList()` method works. Basically, the `Collections` class has a static inner class called `UnmodifiableList`. When we call the `unmodifiableList()` method, a new instance of `UnmodifiableList` is returned. This class implements the `List` interface and overrides the operations like add and remove to throw `UnsupportedOperationException`.
+
+Some snippets of the actual code are shown below for your understanding.
+
+```java
+static class UnmodifiableList<E> extends UnmodifiableCollection<E>
+        implements List<E> {
+
+    private static final long serialVersionUID = -283967356065247728L;
+
+    final List<? extends E> list;
+
+    UnmodifiableList(List<? extends E> list) {
+        super(list);
+        this.list = list;
+    }
+
+    public boolean equals(Object o) {
+        return o == this || list.equals(o);
+    }
+
+    public int hashCode() {
+        return list.hashCode();
+    }
+
+    public E get(int index) {
+        return list.get(index);
+    }
+
+    public E set(int index, E element) {
+        throw new UnsupportedOperationException();
+    }
+
+    public void add(int index, E element) {
+        throw new UnsupportedOperationException();
+    }
+
+    public E remove(int index) {
+        throw new UnsupportedOperationException();
+    }
+
+    public int indexOf(Object o) {
+        return list.indexOf(o);
+    }
+
+    public int lastIndexOf(Object o) {
+        return list.lastIndexOf(o);
+    }
+
+    public boolean addAll(int index, Collection<? extends E> c) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void replaceAll(UnaryOperator<E> operator) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void sort(Comparator<? super E> c) {
+        throw new UnsupportedOperationException();
+    }
+}
+```
+
+## Making Collections thread-safe
+
+Most of the collections such as `ArrayList`, `LinkedList`, `HashSet`, `HashMap`, etc., are not thread-safe. If two parallel threads modify any of these collections parallelly, the user can get stale data or `ConcurrentModificationException`.
+
+We can use thread-safe alternatives such as `CopyOnWriteArrayList`, `ConcurrentHashMap`, etc., but what if we don’t want to use these alternatives? What if we have already created an `ArrayList`, and now we want to make it thread-safe.
+
+The `Collections` class provides us with the following methods that can be used to make our existing collection thread-safe.
+
+1. `synchronizedCollection(Collection<T> c)`
+2. `synchronizedList(List<T> list)`
+3. `synchronizedMap(Map<K,V> m)`
+4. `synchronizedSet(Set<T> s)`
+5. `synchronizedSortedMap(SortedMap<K,V> m)`
+6. `synchronizedSortedSet(SortedSet<T> s)`
+
+### Making an ArrayList thread-safe
+
+To make an `ArrayList` thread-safe we can use the `synchronizedList()` method. Let’s see how this method works internally. The `Collections` class contains a static inner class called `SynchronizedList`. The `synchronizedList()` method is called when the object of this class is returned. If you look at the implementation of this class below, then you can see that all the methods have been synchronized.
+
+Since all the methods are synchronized, this makes it very slow. So, we should always try to use the thread-safe implementations instead of making a collection thread-safe using this method.
+
+```java
+static class SynchronizedList<E> extends SynchronizedCollection<E>
+        implements List<E> {
+
+    private static final long serialVersionUID = -7754090372962971524L;
+
+    final List<E> list;
+
+    SynchronizedList(List<E> list) {
+        super(list);
+        this.list = list;
+    }
+
+    SynchronizedList(List<E> list, Object mutex) {
+        super(list, mutex);
+        this.list = list;
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        synchronized (mutex) {
+            return list.equals(o);
+        }
+    }
+
+    public int hashCode() {
+        synchronized (mutex) {
+            return list.hashCode();
+        }
+    }
+
+    public E get(int index) {
+        synchronized (mutex) {
+            return list.get(index);
+        }
+    }
+
+    public E set(int index, E element) {
+        synchronized (mutex) {
+            return list.set(index, element);
+        }
+    }
+
+    public void add(int index, E element) {
+        synchronized (mutex) {
+            list.add(index, element);
+        }
+    }
+
+    public E remove(int index) {
+        synchronized (mutex) {
+            return list.remove(index);
+        }
+    }
+}
+```
