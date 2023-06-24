@@ -715,6 +715,9 @@ public class ArrayListDemo {
 	}
 }
 ```
+```md
+Total number of times,9 is present in the List is: 3
+```
 
 ## Searching an element in a Collection
 
@@ -742,6 +745,9 @@ public class CollectionsDemo {
 		System.out.println("The minimum element in the List is: " + Collections.binarySearch(list, new Integer(222)));
 	}
 }
+```
+```md
+The minimum element in the List is: -7
 ```
 
 ## Copying a list into another list
@@ -791,6 +797,9 @@ public class CollectionsDemo {
 	}
 }
 ```
+```md
+[90, 12, 98, 43, 66, 76]
+```
 
 ## Filling a list with a default value
 
@@ -813,6 +822,9 @@ public class ArrayListDemo {
 		System.out.println(list);
 	}
 }
+```
+```md
+[10, 10]
 ```
 
 ## Making Collections Unmodifiable
@@ -852,6 +864,11 @@ public class UnmodifiableArrayList {
 		unmodifiableList.add("China");
 	}
 }
+```
+```md
+Exception in thread "main" java.lang.UnsupportedOperationException
+	at java.util.Collections$UnmodifiableCollection.add(Collections.java:1057)
+	at UnmodifiableArrayList.main(UnmodifiableArrayList.java:15)
 ```
 
 Let’s discuss briefly how the `unmodifiableList()` method works. Basically, the `Collections` class has a static inner class called `UnmodifiableList`. When we call the `unmodifiableList()` method, a new instance of `UnmodifiableList` is returned. This class implements the `List` interface and overrides the operations like add and remove to throw `UnsupportedOperationException`.
