@@ -1128,3 +1128,344 @@ class GFG {
 Output:
 [(10, 20), (5, 30)]
 ```
+
+---
+
+## Searching an Array
+
+`Arrays` is a class in the `java.utils` package that contains various methods for manipulating arrays (such as sorting and searching). This class also contains a static factory that allows arrays to be seen as a list. The methods in this class throw a `NullPointerException` if the specified array reference is **null**.
+
+The `Arrays` class provides the `binarySearch()` method to search for a particular element in an array. There are a lot of overloaded `binarySearch()` methods to handle all the primitive types. Some of the important points to note about the `binarySearch()` method are:
+
+1. The array that is passed to the method should be sorted. If the array is not sorted, then the result is undefined.
+
+2. This method returns the index where the element is present in the array. If the element is not present in the array, then the index of the first element greater than the key is returned.
+
+3. If the array contains multiple elements with the specified value, there is no guarantee which one will be found.
+
+4. `ClassCastException` is thrown if the search key is not comparable to the elements of the array.
+
+As the name suggests, the `binarySearch()` method uses the binary search algorithm to search for an element in the array. It is far better than a linear search. The complexity of the linear search algorithm is `O(n)`, whereas the complexity of the binary search algorithm is `O(log n)`.
+
+The below example shows how we can use the `binarySearch()` method to search an element in an integer array.
+
+```java
+import java.util.Arrays;
+
+public class ArraysDemo {
+	public static void main(String args[]) {
+		int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+		int index = Arrays.binarySearch(numbers, 4);
+		System.out.println("The index of element 4 in the array is " + index);
+	}
+}
+```
+```md
+The index of element 4 in the array is 3
+```
+
+It is possible that we may not need to search the entire array. In that case, we can provide the start and end index of the elements in the array that needs to be searched.
+
+```java
+import java.util.Arrays;
+
+public class ArraysDemo {
+	public static void main(String args[]) {
+		int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+		int index = Arrays.binarySearch(numbers, 5, 9, 4);
+		System.out.println("The index of element 4 in the array is " + index);
+		index = Arrays.binarySearch(numbers, 1, 5, 4);
+		System.out.println("The index of element 4 in the array is " + index);
+	}
+}
+```
+```md
+The index of element 4 in the array is -6
+The index of element 4 in the array is 3
+```
+
+### Searching a custom class object in an array
+
+Let’s say we have created an `Employee` class and we have an array of `Employee` objects. We want to check if a particular `Employee` object is present in the array or not.
+
+We will pass the employee array and the object that we need to search to the `binarySearch()` method as shown in the below example.
+
+The below example will not compile because our `Employee` class does not implement the `Comparable` interface. For the search to be successful it is necessary that the objects we have stored in the array should be comparable.
+
+```java
+import java.util.Arrays;
+
+public class ArraysDemo {
+	public static void main(String args[]) {
+		Employee[] employees = {
+            new Employee(123, "Jay"),
+            new Employee(124, "Roy"),
+            new Employee(125, "Nikki"),
+            new Employee(126, "Tom")
+        };
+		int index = Arrays.binarySearch(employees, new Employee(124, "Roy"));
+		System.out.println("The index of employee in the array is " + index);
+	}
+}
+```
+
+We have two options to fix this issue. Either our class should implement the `Comparable` interface or we should pass a `Comparator` implementation while calling the `binarySearch()` method.
+
+In the below example, we are passing the `Comparator` implementation while calling the `binarySearch()` method.
+
+```java
+public class Employee {
+	int empId;
+	String empName;
+
+	public Employee(int empId, String empName) {
+		super();
+		this.empId = empId;
+		this.empName = empName;
+	}
+}
+
+import java.util.Arrays;
+
+public class ArraysDemo {
+    public static void main(String args[]) {
+        Employee[] employees = {
+            new Employee(123, "Jay"),
+            new Employee(124, "Roy"),
+            new Employee(125, "Nikki"),
+            new Employee(126, "Tom")
+        };
+        int index = Arrays.binarySearch(employees, new Employee(124, "Roy"), (emp1, emp2) -> emp1.empId - emp2.empId);
+        System.out.println("The index of employee object in the array is " + index);
+    }
+}
+```
+```md
+The index of employee object in the array is 1
+```
+
+## Sorting an Array
+
+The `Arrays` class has a `sort()` method that is used to sort the arrays of objects and primitives. If we are sorting a primitive array, then ***quicksort*** is used. And if we are sorting an object array, then ***merge sort*** is used.
+
+Although ***quicksort*** is faster in both cases, it is not a stable algorithm. ***Merge sort*** is a stable algorithm, so it is used in the case of sorting an object array. In the case of the primitive array, we don’t care about stability, so quicksort is used.
+
+> Stable sorting algorithms are algorithms that maintain the relative order of equal elements. For example, we have an array [1,4,6,8,6], which we need to sort. Now after sorting this array, the result is [1,4,6,6,8]. Although there are two sixes in the array, we don’t care which six came first in the sorted array. But in the case of an object array, the relative order of elements also matters. If two objects are the same in an object array, then their relative order should be the same in the sorted array.
+
+The sort method has two variants:
+- `sort(array)` – sorts the full array into ascending order
+- `sort(array, fromIndex, toIndex)` – sorts only the elements from *fromIndex* to *toIndex*.
+
+```java
+import java.util.Arrays;
+
+public class ArraysDemo {
+	public static void main(String args[]) {
+		Integer[] numbers = { 10, 2, 32, 12, 15, 76, 17, 48, 79, 9 };
+		Arrays.sort(numbers);
+
+		for (int i : numbers) {
+			System.out.print(i + " ");
+		}
+	}
+}
+```
+```md
+2 9 10 12 15 17 32 48 76 79
+```
+
+### Sorting an array in parallel
+
+In Java 8, a new method `parallelSort()` was introduced to sort the arrays parallelly. Unlike `sort()`, which sorts data sequentially using a single thread, `parallelSort()` uses a ***parallel sort-merge*** sorting algorithm. It breaks the array into sub-arrays that are themselves sorted and then merged.
+
+This method uses the `ForkJoin` pool for executing parallel tasks. The array is sorted parallelly only when certain conditions are met. If the array size is less than or equal to **8192** or the processor has only one core, then the ***sequential dual-pivot Quicksort*** algorithm is used. Otherwise, it uses a parallel sort.
+
+```java
+import java.util.Arrays;
+
+public class ArraysDemo {
+	public static void main(String args[]) {
+		Integer[] numbers = { 10, 2, 32, 12, 15, 76, 17, 48, 79, 9 };
+		Arrays.parallelSort(numbers);
+
+		for (int i : numbers) {
+			System.out.print(i + " ");
+		}
+	}
+}
+```
+```md
+2 9 10 12 15 17 32 48 76 79
+```
+
+## Copying an Array
+
+If we need to create copies of our array, then we can use the `copyOf()` method from the `Arrays` class. We need to provide the array that needs to be copied and the new array’s size as a parameter.
+
+The below example shows how to create a copy of an array where the copied array size is the same as the original array. If the new array’s size is greater than the original array, then the remaining positions are filled with zeros.
+
+```java
+import java.util.Arrays;
+
+public class ArraysDemo {
+	public static void main(String args[]) {
+		int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+		int[] newArray = Arrays.copyOf(numbers, numbers.length);
+
+		System.out.println("The copied array is: ");
+
+		for (int i : newArray) {
+			System.out.print(i + " ");
+		}
+
+		int[] newArrayBiggerSize = Arrays.copyOf(numbers, 20);
+        System.out.println();
+		System.out.println("The copied array is: ");
+
+		for (int i : newArrayBiggerSize) {
+			System.out.print(i + " ");
+		}
+	}
+}
+```
+```md
+The copied array is:
+1 2 3 4 5 6 7 8 9 10
+The copied array is:
+1 2 3 4 5 6 7 8 9 10 0 0 0 0 0 0 0 0 0 0
+```
+
+It is possible that we may only want to copy a part of our original array. In that case, we can use the `copyOfRange()` method. This method takes three arguments: the original array, the from index (which is inclusive), and a to index (which is exclusive).
+
+```java
+import java.util.Arrays;
+
+public class ArraysDemo {
+	public static void main(String args[]) {
+		int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+		int[] newArray = Arrays.copyOfRange(numbers, 0, 5);
+
+		System.out.println("The copied array is: ");
+
+		for (int i : newArray) {
+			System.out.println(i);
+		}
+	}
+}
+```
+```md
+The copied array is:
+1
+2
+3
+4
+5
+```
+
+Have you ever wondered what would happen if we create a copy of an array that contains objects of a custom class?
+
+If we change the object in the original array, will it be changed in the copied array?
+
+Let’s try to answer these questions using an example. In the below example, we have created an array of two `Employee` objects. Then we created a copy of this array. We will see what happens when one of the `Employee` objects is changed in the original array.
+
+```java
+public class Employee {
+	int empId;
+	String empName;
+
+	public Employee(int empId, String empName) {
+		super();
+		this.empId = empId;
+		this.empName = empName;
+	}
+}
+
+import java.util.Arrays;
+
+public class ArraysDemo {
+	public static void main(String args[]) {
+		// Creating an Array of Employee objects.
+		Employee[] employees = { new Employee(123, "Jay"), new Employee(124, "Ryan") };
+		// Creating the copy of Array.
+		Employee[] copiedArray = Arrays.copyOf(employees, 2);
+		// Changing the name of first employee in original array.
+		employees[0] = new Employee(123, "Changed Name");
+		// Printing the name of first employee in original array.
+		System.out.println(employees[0].empName);
+		// Printing the name of first employee in copied array.
+		System.out.println(copiedArray[0].empName);
+	}
+}
+```
+```md
+Changed Name
+Jay
+```
+
+As we can see from the above program’s output, the name did not change in the copied array. This means that the `copyOf()` method creates a deep copy of objects instead of just changing the references.
+
+## Arrays: Operations
+
+### Converting an Array into a List
+
+We can convert an array into a list using the `asList()` method. If any changes are made to the resulting list, then changes are propagated to the original array. The `asList()` method returns a fixed-size list, so it is not possible to add or remove elements from this list.
+
+```java
+import java.util.Arrays;
+import java.util.List;
+
+public class ArraysDemo {
+	public static void main(String args[]) {
+		Integer[] numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+		List<Integer> list = Arrays.asList(numbers);
+		System.out.print(list);
+	}
+}
+```
+```md
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+```
+
+### Checking if two arrays are equal
+
+We can use the `equals()` method of the `Arrays` class to check if the two arrays are equal or not. Two arrays are considered equal if both have the same number of elements and all corresponding pairs of elements in the two arrays are equal.
+
+```java
+import java.util.Arrays;
+
+public class ArraysDemo {
+	public static void main(String args[]) {
+		Integer[] numbers1 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+		Integer[] numbers2 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+		boolean isEqual = Arrays.equals(numbers1, numbers2);
+		System.out.print("Checking if two arrays are equal : " + isEqual);
+	}
+}
+```
+```md
+Checking if two arrays are equal : true
+```
+
+### Filling an array with default value
+
+Have you ever encountered a scenario where you need to initialize an array and then fill it with some default value?
+
+If yes, then you might have iterated the array and filled each element with the default value. This task can be made simple using the `fill()` method of the `Arrays` class. This method takes an array and a default value as input. It then assigns the default value to each element of the array.
+
+```java
+import java.util.Arrays;
+
+public class ArraysDemo {
+	public static void main(String args[]) {
+		Integer[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+		Arrays.fill(numbers, 20);
+
+		for (int i : numbers) {
+			System.out.print(i + " ");
+		}
+	}
+}
+```
+```md
+20 20 20 20 20 20 20 20 20 20
+```
